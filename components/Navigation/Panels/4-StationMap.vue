@@ -1,15 +1,12 @@
 <template>
   <div class="wrapper">
+    <AngleLeft @click="$emit('next', 'getInfoPanel')" />
     <Panel>
       <div class="justify-content-space-between align-items-flex-end">
         <span class="font-size-huge color-focus"> 車站內部路線 </span>
       </div>
 
-      <div
-        v-for="(station, index) in data.sationMaps"
-        :key="index"
-        class="station"
-      >
+      <div v-for="(station, index) in data.sationMaps" :key="index" class="station">
         <span class="font-size-mini color-secondary">
           {{ station.type }}
         </span>
@@ -22,20 +19,14 @@
 
       <div class="cols mt-4">
         <div class="col-6 p-1">
-          <Button
-            @click="$emit('next', 'setNotice')"
-            color="#e9a668"
-            size="small"
-          >
+          <Button @click="$emit('next', 'setNotice')" color="#e9a668" size="small">
             <span class="mdi mdi-bell-ring"></span>
             設定下車提醒
           </Button>
         </div>
 
         <div class="col-6 p-1">
-          <Button @click="$emit('next', 'getDetail')" size="small"
-            >詳細路線資料</Button
-          >
+          <Button @click="$emit('next', 'getDetail')" size="small">詳細路線資料</Button>
         </div>
       </div>
     </Panel>
@@ -50,20 +41,20 @@ export default {
     },
   },
   mounted() {
-    this.$set(this.data, 'sationMaps', [
+    this.$set(this.data, "sationMaps", [
       {
-        type: '起點',
-        station: '東門站',
-        image: 'https://web.metro.taipei/img/ALL/stationprofile/134.jpg',
+        type: "起點",
+        station: "東門站",
+        image: "https://web.metro.taipei/img/ALL/stationprofile/134.jpg",
       },
       {
-        type: '轉乘站',
-        station: '大安站',
-        image: 'https://web.metro.taipei/img/ALL/stationprofile/134.jpg',
+        type: "轉乘站",
+        station: "大安站",
+        image: "https://web.metro.taipei/img/ALL/stationprofile/134.jpg",
       },
-    ])
+    ]);
   },
-}
+};
 </script>
 
 <style scoped>
