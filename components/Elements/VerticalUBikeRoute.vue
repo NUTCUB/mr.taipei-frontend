@@ -121,6 +121,6 @@ export default {
 .vacancy {
   display: flex;
   align-items: center;
-  padding-left:0.4rem;
+  padding-left: 0.4rem;
 }
 </style>

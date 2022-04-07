@@ -1,7 +1,6 @@
 <template>
   <div class="wrapper">
     <component :is="currentPanel" :data="data" @next="nextPressed"></component>
- 
   </div>
 </template>
 
@@ -27,8 +26,8 @@ export default {
   },
   methods: {
     nextPressed(event) {
-      if(event =='getInfoPanel'){
-         this.currentPanel = InfoPanel
+      if (event == 'getInfoPanel') {
+        this.currentPanel = InfoPanel
       }
       if (event == 'getRoute') {
         this.currentPanel = RoutePanel
@@ -40,8 +39,6 @@ export default {
         this.currentPanel = StationMapPanel
       }
     },
- 
-    
   },
 }
 </script>

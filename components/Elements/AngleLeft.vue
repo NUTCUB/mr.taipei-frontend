@@ -11,7 +11,7 @@ export default {}
 @import 'https://pro.fontawesome.com/releases/v5.10.0/css/all.css';
 .icon {
   color: #17e68e;
-  position:absolute;
-  top:70px;
+  position: absolute;
+  top: 70px;
 }
 </style>
