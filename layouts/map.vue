@@ -38,6 +38,9 @@ export default {
       console.warn('Brower does not suppot gelocation API.')
     }
   },
+  methods: {
+    prev() {},
+  },
 }
 </script>
 

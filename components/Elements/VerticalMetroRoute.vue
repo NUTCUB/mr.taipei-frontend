@@ -23,7 +23,7 @@
       <div class="content" v-if="element.type == 'station'">
         <div class="title font-size-regular color-text">
           {{ element.station.title }}
-          <span v-if="element.station.notice" class="mdi mdi-bell-ring"></span>
+          <Icon v-if="element.station.notice" icon="bell-ring"></Icon>
         </div>
         <div class="tips font-size-small color-text">
           {{ element.station.tips }}
