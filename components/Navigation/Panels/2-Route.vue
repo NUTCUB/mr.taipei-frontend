@@ -1,6 +1,5 @@
 <template>
   <div class="wrapper">
-    <AngleLeft @click="$emit('next', 'getInfoPanel')" />
     <Panel>
       <div class="cols">
         <div class="col-6 p-2">

@@ -6,7 +6,7 @@
       :class="element.type"
     >
       <div class="icon">
-        <span v-if="element.type == 'station'" class="mdi mdi-bike"></span>
+        <Icon v-if="element.type == 'station'" icon="bike"></Icon>
         <div v-if="element.type == 'line'" class="lineBackground"></div>
       </div>
       <div class="content" v-if="element.type == 'station'">
