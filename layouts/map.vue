@@ -2,11 +2,13 @@
   <div>
     <div style="height: 100vh">
       <client-only>
-        <l-map :zoom="15" :center="[latitude, longitude]">
+        <l-map :zoom="15" :center="[position.latitude, position.longitude]">
           <l-tile-layer
             url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
           ></l-tile-layer>
-          <l-marker :lat-lng="[latitude, longitude]"></l-marker>
+          <l-marker
+            :lat-lng="[position.latitude, position.longitude]"
+          ></l-marker>
         </l-map>
       </client-only>
     </div>
@@ -20,23 +22,23 @@
 export default {
   data() {
     return {
-      latitude: "",
-      longitude: "",
-    };
-  },
-  created: function () {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((postion) => {
-        console.log(postion.coords.latitude);
-        console.log(postion.coords.longitude);
-        this.latitude = postion.coords.latitude;
-        this.longitude = postion.coords.longitude;
-      });
-    } else {
-      console.log("Your brower does not suppot gelocation api");
+      position: {
+        latitude: 25.0487269,
+        longitude: 121.5181263,
+      },
     }
   },
-};
+  async mounted() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.position.latitude = position.coords.latitude
+        this.position.longitude = position.coords.longitude
+      })
+    } else {
+      console.warn('Brower does not suppot gelocation API.')
+    }
+  },
+}
 </script>
 
 <style scoped>
