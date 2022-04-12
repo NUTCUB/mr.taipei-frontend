@@ -2,12 +2,14 @@
   <div>
     <!-- <div style="height: 100vh">
       <client-only>
-        <l-map :zoom="15" :center="[latitude,longitude]">
+         <l-map :zoom="15" :center="[position.latitude, position.longitude]">
+     
           <l-tile-layer
             url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
           ></l-tile-layer>
           <l-marker
-            :lat-lng="[latitude,longitude]"
+            :lat-lng="[position.latitude, position.longitude]"
+    
           ></l-marker>
         </l-map>
       </client-only>
@@ -31,17 +33,20 @@ export default {
       geocoder: null,
       newlatitude: null,
       newlongitude: null,
-      
+      position: {
+        latitude: 25.0487269,
+        longitude: 121.5181263,
+      },
     };
   },
 
-  mounted() {
+  async mounted() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
+        this.position.latitude = position.coords.latitude;
+        this.position.longitude = position.coords.longitude;
         this.mapTrue = true;
-        this.showLocationMap(this.latitude, this.longitude);
+        this.showLocationMap(this.position.latitude, this.position.longitude);
       });
     } else {
       console.warn("Brower does not suppot gelocation API.");
@@ -69,8 +74,8 @@ export default {
         if (status === "OK") {
           // 當轉換成功時，將第一筆結果的經緯度存取起來
 
-          this.newlatitude = results[0].geometry.location.lat();
-          this.newlongitude = results[0].geometry.location.lng();
+          this.lat = results[0].geometry.location.lat();
+          this.lng = results[0].geometry.location.lng();
           // this.showLocationMap(this.newlatitude, this.newlongitude);
           // 更新狀態為已經獲得經緯度
           this.hasGeo = true;
@@ -96,7 +101,6 @@ export default {
       });
     },
   },
-  
 };
 </script>
 
