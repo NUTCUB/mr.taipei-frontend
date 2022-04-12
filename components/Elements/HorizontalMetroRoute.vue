@@ -68,6 +68,6 @@ export default {
 .lineBackground {
   width: 100%;
   height: 8px;
-  transform:scale(1.02)
+  transform: scale(1.02);
 }
 </style>

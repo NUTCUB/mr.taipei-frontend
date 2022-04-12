@@ -23,21 +23,19 @@ export default {
   css: [
     '~/assets/css/main.css',
     'normalize.css/normalize.css',
-    '@mdi/font/css/materialdesignicons.min.css'
+    '@mdi/font/css/materialdesignicons.min.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: [
-    '~/components/Elements',
-  ],
+  components: ['~/components/Elements'],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-  
-  ],
+
+  buildModules: [],
+
 
 
   // Modules: https://go.nuxtjs.dev/config-modules

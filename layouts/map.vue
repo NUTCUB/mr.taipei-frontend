@@ -2,11 +2,13 @@
   <div>
     <!-- <div style="height: 100vh">
       <client-only>
-        <l-map :zoom="15" :center="[latitude, longitude]">
+        <l-map :zoom="15" :center="[position.latitude, position.longitude]">
           <l-tile-layer
             url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
           ></l-tile-layer>
-          <l-marker :lat-lng="[latitude, longitude]"></l-marker>
+          <l-marker
+            :lat-lng="[position.latitude, position.longitude]"
+          ></l-marker>
         </l-map>
       </client-only>
     </div> -->
@@ -22,6 +24,7 @@
 export default {
   data() {
     return {
+
       latitude: "",
       longitude: "",
       fromLocation: "",
@@ -42,8 +45,22 @@ export default {
         this.mapTrue = true;
         this.showLocationMap(this.latitude, this.longitude);
       });
+
+      position: {
+        latitude: 25.0487269,
+        longitude: 121.5181263,
+      },
+    }
+  },
+  async mounted() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.position.latitude = position.coords.latitude
+        this.position.longitude = position.coords.longitude
+      })
+
     } else {
-      console.log("Your brower does not suppot gelocation api");
+      console.warn('Brower does not suppot gelocation API.')
     }
 
     window.addEventListener("foo-key-localstorage-changed", (event) => {
@@ -95,7 +112,10 @@ export default {
       });
     },
   },
-};
+  methods: {
+    prev() {},
+  },
+}
 </script>
 
 <style scoped>
