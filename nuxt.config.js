@@ -14,6 +14,8 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
+    script:[{
+      src:'https://maps.googleapis.com/maps/api/js?key=AIzaSyCJFwbpGbSupV8prrQsoX-VeIzMBookR5Q&callback=initMap&libraries=places&v=weekly'}],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
@@ -31,10 +33,14 @@ export default {
   components: ['~/components/Elements'],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
+
   buildModules: [],
+
+
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
@@ -48,7 +54,7 @@ export default {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
     baseURL: '/',
   },
-
+  
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
