@@ -13,7 +13,6 @@
     <div class="exitWrapper">
       <span class="exit">{{ exit }}</span>
     </div>
-
   </div>
 </template>
 
@@ -82,10 +81,10 @@ export default {
   font-weight: bold;
 }
 
-.exitWrapper{
-  width:0;
-  height:0;
-  display:flex;
+.exitWrapper {
+  width: 0;
+  height: 0;
+  display: flex;
   justify-content: center;
 }
 .exit {
