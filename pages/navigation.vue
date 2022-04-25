@@ -6,68 +6,58 @@
       icon="arrow-left"
       class="prev"
     ></Icon>
-    <component :is="currentPanel" :data="data" @next="nextPressed"></component>
+    <component
+      :is="currentPanel"
+      :data="data"
+      :map="map"
+      @next="nextPressed"
+    ></component>
   </div>
-</template>f
+</template>
 
 <script>
-import InfoPanel from "~/components/Navigation/Panels/1-Info.vue";
-import RoutePanel from "~/components/Navigation/Panels/2-Route.vue";
-import DetailPanel from "~/components/Navigation/Panels/3-Detail.vue";
-import StationMapPanel from "~/components/Navigation/Panels/4-StationMap.vue";
-import axios from "axios";
-import jwtDecode from "jwt-decode";
-import Qs from "qs";
+import InfoPanel from '~/components/Navigation/Panels/1-Info.vue'
+import RoutePanel from '~/components/Navigation/Panels/2-Route.vue'
+import DetailPanel from '~/components/Navigation/Panels/3-Detail.vue'
+import StationMapPanel from '~/components/Navigation/Panels/4-StationMap.vue'
+
+import lineLogin from '~/tools/lineLogin'
+
 export default {
-  name: "NavigatoinPage",
-  layout: "map",
+  name: 'NavigatoinPage',
+  layout: 'map',
 
   data() {
     return {
+      // 目前頁面及頁面瀏覽紀錄
       currentPanel: InfoPanel,
+      panelHistory: [],
 
+      // 傳進各個頁面的資料
       data: {
         leaveTime: new Date(),
         tokenResult: {},
         idTokenDecode: {},
       },
 
-    };
+      map: null,
+    }
   },
 
   mounted() {
-    this.query = this.$route.query; // 接網址的參數
+    let queryParams = this.$route.query
+    let lineLoginCode = queryParams.code
+    if (lineLoginCode) {
+      lineLogin.issueAccessToken(lineLoginCode)
+    }
 
-    let options = Qs.stringify({
-      // POST的參數  用Qs是要轉成form-urlencoded 因為LINE不吃JSON格式
-      grant_type: "authorization_code",
-      code: this.query.code,
-      redirect_uri: "http://localhost:3000/navigation",
-      client_id: 1656586136,
-      client_secret: "3123ea22ad4c1a3af54d4e8525403de8",
-    });
-
-    axios
-      .post("https://api.line.me/oauth2/v2.1/token", options, {
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      })
-      .then((res) => {
-        this.tokenResult = res.data; // 回傳的結果
-
-        this.idTokenDecode = jwtDecode(res.data.id_token); // 把結果的id_token做解析
-        console.log(this.idTokenDecode);
-        const userdata = {
-          username: this.idTokenDecode.name,
-          img: this.idTokenDecode.picture,
-        };
-        localStorage.setItem("userData", JSON.stringify(userdata));
-      });
+    this.map = this.$nuxt.$map
   },
 
   methods: {
     nextPressed(event) {
-       if (event == "getInfoPanel") {
-        this.currentPanel = InfoPanel;
+      if (event == 'getInfoPanel') {
+        this.currentPanel = InfoPanel
       }
       if (event == 'getRoute') {
         this.panelHistory.push(RoutePanel)
@@ -88,9 +78,8 @@ export default {
         this.currentPanel = this.panelHistory[this.panelHistory.length - 1]
       }
     },
-
   },
-};
+}
 </script>
 
 <style scoped>
