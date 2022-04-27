@@ -6,18 +6,14 @@
           <div class="rows flex-cols-flex-start">
             <span class="font-size-small color-secondary">起點</span>
 
-            <span class="font-size-large color-text">{{
-              data.fromLocation
-            }}</span>
+            <span class="font-size-large color-text">{{ data.fromLocation }}</span>
           </div>
         </div>
         <div class="col-6 p-2">
           <div class="rows flex-cols-flex-start">
             <span class="font-size-small color-secondary">目的地</span>
 
-            <span class="font-size-large color-text">{{
-              data.toLocation
-            }}</span>
+            <span class="font-size-large color-text">{{ data.toLocation }}</span>
           </div>
         </div>
       </div>
@@ -35,10 +31,10 @@
               .toLocaleTimeString(undefined, {
                 hour12: false,
 
-                hour: '2-digit',
-                minute: '2-digit',
+                hour: "2-digit",
+                minute: "2-digit",
               })
-              .replace('24:', '00:')
+              .replace("24:", "00:")
           }}</span>
         </div>
         <div class="col-4 rows">
@@ -48,10 +44,10 @@
               .toLocaleTimeString(undefined, {
                 hour12: false,
 
-                hour: '2-digit',
-                minute: '2-digit',
+                hour: "2-digit",
+                minute: "2-digit",
               })
-              .replace('24:', '00:')
+              .replace("24:", "00:")
           }}</span>
         </div>
         <div class="col-4 rows">
@@ -59,9 +55,7 @@
           <div class="cols">
             <span class="color-focus font-size-regular">25</span>
 
-            <span class="color-secondary font-size-regular"
-              >&nbsp;&nbsp;分鐘</span
-            >
+            <span class="color-secondary font-size-regular">&nbsp;&nbsp;分鐘</span>
           </div>
         </div>
       </div>
@@ -82,46 +76,78 @@ export default {
   },
 
   mounted() {
-    let geoCoder = new google.maps.Geocoder()
-    geoCoder.geocode(
-      {
-        address: this.data.fromLocation,
-        componentRestrictions: {
-          country: 'TW',
-        },
-      },
-      (results, status) => {
-        if (status === 'OK') {
-          let lat = results[0].geometry.location.lat()
-          let lon = results[0].geometry.location.lng()
-          this.map.setCenter(new google.maps.LatLng(lat, lon))
+    // let geoCoder = new google.maps.Geocoder()
+    // geoCoder.geocode(
+    //   {
+    //     address: this.data.fromLocation,
+    //     componentRestrictions: {
+    //       country: 'TW',
+    //     },
+    //   },
+    //   (results, status) => {
+    //     if (status === 'OK') {
+    //       let lat = results[0].geometry.location.lat()
+    //       let lon = results[0].geometry.location.lng()
+    //       this.map.setCenter(new google.maps.LatLng(lat, lon))
 
+    //       new google.maps.Marker({
+    //         position: new google.maps.LatLng(lat, lon),
+    //         map: this.map,
+    //       })
+    //     } else {
+    //       this.$snackbar({
+    //         message: '找不到此起點',
+    //       })
+    //     }
+    //   }
+    // )
+    let ds = new google.maps.DirectionsService();
+    let dD = new google.maps.DirectionsRenderer();
+    let request = {
+      origin: this.data.fromLocation,
+      destination: this.data.toLocation,
+      travelMode: "TRANSIT",
+      transitOptions: { modes: ["SUBWAY"] },
+    };
+
+    dD.setMap(this.map);
+    ds.route(request, function (result, status) {
+      if (status == "OK") {
+        console.log(result);
+        let steps = result.routes[0].legs[0].steps;
+        steps.forEach((res, key) => {
           new google.maps.Marker({
-            position: new google.maps.LatLng(lat, lon),
-            map: this.map,
-          })
-        } else {
-          this.$snackbar({
-            message: '找不到此起點',
-          })
-        }
-      }
-    )
+            position: {
+              lat: res.start_location.lat(),
+              lng: res.start_location.lng(),
+            },
+            label: { text: key + "", color: "#fff" },
+            map: map,
+          });
+        });
 
-    this.$set(this.data, 'route', [
+        dD.setDirections(result);
+      } else {
+        this.$snackbar({
+          message: "找不到此起點",
+        });
+      }
+    });
+
+    this.$set(this.data, "route", [
       {
-        color: 'red',
-        code: 'R07',
-        exit: '出口 4',
+        color: "red",
+        code: "R07",
+        exit: "出口 4",
       },
       {
-        color: '#e9a668',
-        code: 'BR14',
-        exit: '出口 1',
+        color: "#e9a668",
+        code: "BR14",
+        exit: "出口 1",
       },
-    ])
+    ]);
   },
-}
+};
 </script>
 
 <style scoped>
