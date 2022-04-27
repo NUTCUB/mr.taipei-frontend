@@ -1,23 +1,9 @@
 <template>
   <div>
-    <!-- <div style="height: 100vh">
-      <client-only>
-         <l-map :zoom="15" :center="[position.latitude, position.longitude]">
-     
-          <l-tile-layer
-            url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
-          ></l-tile-layer>
-          <l-marker
-            :lat-lng="[position.latitude, position.longitude]"
-    
-          ></l-marker>
-        </l-map>
-      </client-only>
-    </div> -->
-    <section id="map"></section>
+    <section ref="map" id="map"></section>
 
     <div class="wrapper">
-      <nuxt />
+      <nuxt v-if="map" />
     </div>
   </div>
 </template>
@@ -26,13 +12,7 @@
 export default {
   data() {
     return {
-      latitude: "",
-      longitude: "",
-      fromLocation: "",
-      toLocation: "",
-      geocoder: null,
-      newlatitude: null,
-      newlongitude: null,
+      map: null,
       position: {
         latitude: 25.0487269,
         longitude: 121.5181263,
@@ -42,64 +22,28 @@ export default {
 
   async mounted() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        this.position.latitude = position.coords.latitude;
-        this.position.longitude = position.coords.longitude;
-        this.mapTrue = true;
-        this.showLocationMap(this.position.latitude, this.position.longitude);
+      await new Promise((resolve) => {
+        navigator.geolocation.getCurrentPosition((position) => {
+          this.position.latitude = position.coords.latitude;
+          this.position.longitude = position.coords.longitude;
+          resolve();
+        });
       });
     } else {
       console.warn("Brower does not suppot gelocation API.");
     }
 
-    window.addEventListener("foo-key-localstorage-changed", (event) => {
-      this.fromLocation = event.detail.storage;
-      this.toLocation = event.detail2.storage2;
+    this.map = new google.maps.Map(this.$refs.map, {
+      zoom: 15,
+      center: new google.maps.LatLng(this.position.latitude, this.position.longitude),
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
     });
+    this.$nuxt.$map = this.map;
 
-    this.geocoder = new google.maps.Geocoder();
-    const address = this.fromLocation;
-    this.geocoder.geocode(
-      // GeocoderRequest 物件: 帶入要轉換的地址與相關設定
-      {
-        // 地址
-        address: address,
-        // 限制轉換的結果必須是在台灣的範圍
-        componentRestrictions: {
-          country: "TW",
-        },
-      },
-      // 轉換完成後呼叫的 callback 函式
-      (results, status) => {
-        if (status === "OK") {
-          // 當轉換成功時，將第一筆結果的經緯度存取起來
-
-          this.lat = results[0].geometry.location.lat();
-          this.lng = results[0].geometry.location.lng();
-          // this.showLocationMap(this.newlatitude, this.newlongitude);
-          // 更新狀態為已經獲得經緯度
-          this.hasGeo = true;
-        } else {
-          // 更新狀態為未經獲得經緯度
-          this.hasGeo = false;
-          // 當轉換失敗時，顯示錯誤原因
-          this.errormsg = status;
-        }
-      }
-    );
-  },
-  methods: {
-    showLocationMap(latitude, longitude) {
-      let map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 15,
-        center: new google.maps.LatLng(latitude, longitude),
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-      });
-      new google.maps.Marker({
-        position: new google.maps.LatLng(latitude, longitude),
-        map: map,
-      });
-    },
+    new google.maps.Marker({
+      position: new google.maps.LatLng(this.position.latitude, this.position.longitude),
+      map: this.map,
+    });
   },
 };
 </script>

@@ -1,8 +1,5 @@
 <template>
   <div class="wrapper">
-
-    <AngleLeft @click="$emit('next', 'getInfoPanel')" />
-
     <Panel>
       <div class="cols">
         <div class="col-6 p-2">
@@ -10,7 +7,6 @@
             <span class="font-size-small color-secondary">起點</span>
 
             <span class="font-size-large color-text">{{ data.fromLocation }}</span>
-
           </div>
         </div>
         <div class="col-6 p-2">
@@ -18,7 +14,6 @@
             <span class="font-size-small color-secondary">目的地</span>
 
             <span class="font-size-large color-text">{{ data.toLocation }}</span>
-
           </div>
         </div>
       </div>
@@ -40,7 +35,6 @@
                 minute: "2-digit",
               })
               .replace("24:", "00:")
-
           }}</span>
         </div>
         <div class="col-4 rows">
@@ -54,7 +48,6 @@
                 minute: "2-digit",
               })
               .replace("24:", "00:")
-
           }}</span>
         </div>
         <div class="col-4 rows">
@@ -63,7 +56,6 @@
             <span class="color-focus font-size-regular">25</span>
 
             <span class="color-secondary font-size-regular">&nbsp;&nbsp;分鐘</span>
-
           </div>
         </div>
       </div>
@@ -78,36 +70,84 @@ export default {
     data: {
       type: Object,
     },
+    map: {
+      type: google.maps.Map,
+    },
   },
 
   mounted() {
+    // let geoCoder = new google.maps.Geocoder()
+    // geoCoder.geocode(
+    //   {
+    //     address: this.data.fromLocation,
+    //     componentRestrictions: {
+    //       country: 'TW',
+    //     },
+    //   },
+    //   (results, status) => {
+    //     if (status === 'OK') {
+    //       let lat = results[0].geometry.location.lat()
+    //       let lon = results[0].geometry.location.lng()
+    //       this.map.setCenter(new google.maps.LatLng(lat, lon))
 
-    localStorage.setItem("fromLocation", this.data.fromLocation);
-    localStorage.setItem("toLocation", this.data.toLocation);
-    window.dispatchEvent(
-      new CustomEvent("foo-key-localstorage-changed", {
-        detail: {
-          storage: localStorage.getItem("fromLocation"),
-          storage2: localStorage.getItem("toLocation"),
-        },
-      })
-    );
- 
-    this.$set(this.data, 'route', [
+    //       new google.maps.Marker({
+    //         position: new google.maps.LatLng(lat, lon),
+    //         map: this.map,
+    //       })
+    //     } else {
+    //       this.$snackbar({
+    //         message: '找不到此起點',
+    //       })
+    //     }
+    //   }
+    // )
+    let ds = new google.maps.DirectionsService();
+    let dD = new google.maps.DirectionsRenderer();
+    let request = {
+      origin: this.data.fromLocation,
+      destination: this.data.toLocation,
+      travelMode: "TRANSIT",
+      transitOptions: { modes: ["SUBWAY"] },
+    };
 
+    dD.setMap(this.map);
+    ds.route(request, function (result, status) {
+      if (status == "OK") {
+        console.log(result);
+        let steps = result.routes[0].legs[0].steps;
+        steps.forEach((res, key) => {
+          new google.maps.Marker({
+            position: {
+              lat: res.start_location.lat(),
+              lng: res.start_location.lng(),
+            },
+            label: { text: key + "", color: "#fff" },
+            map: map,
+          });
+        });
+
+        dD.setDirections(result);
+      } else {
+        this.$snackbar({
+          message: "找不到此起點",
+        });
+      }
+    });
+
+    this.$set(this.data, "route", [
       {
-        color: 'red',
-        code: 'R07',
-        exit: '出口 4',
+        color: "red",
+        code: "R07",
+        exit: "出口 4",
       },
       {
-        color: '#e9a668',
-        code: 'BR14',
-        exit: '出口 1',
+        color: "#e9a668",
+        code: "BR14",
+        exit: "出口 1",
       },
-    ])
+    ]);
   },
-}
+};
 </script>
 
 <style scoped>
