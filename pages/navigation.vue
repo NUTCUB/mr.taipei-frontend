@@ -50,9 +50,9 @@ export default {
     if (lineLoginCode) {
       lineLogin.issueAccessToken(lineLoginCode)
     }
-    if(lineLogin.issueAccessToken(lineLoginCode)){
+  
       userLogin.userAccess()
-    }
+    
 
     this.map = this.$nuxt.$map
   },
