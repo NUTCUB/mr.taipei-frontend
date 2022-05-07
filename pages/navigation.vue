@@ -22,7 +22,6 @@ import DetailPanel from '~/components/Navigation/Panels/3-Detail.vue'
 import StationMapPanel from '~/components/Navigation/Panels/4-StationMap.vue'
 
 import lineLogin from '~/tools/lineLogin'
-import userLogin from '~/tools/userLogin'
 export default {
   name: 'NavigatoinPage',
   layout: 'map',
@@ -50,10 +49,6 @@ export default {
     if (lineLoginCode) {
       lineLogin.issueAccessToken(lineLoginCode)
     }
-  
-      userLogin.userAccess()
-    
-
     this.map = this.$nuxt.$map
   },
 

@@ -35,13 +35,37 @@ export default {
 
     return axios.post(url, params, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }).then(response => {
       let data = response.data
+
       let user = {
         accessToken: data.access_token,
         expiresIn: new Date(new Date().getTime() + data.expires_in * 1000),
         data: jwtDecode(data.id_token),
         refreshToken: data.refresh_token
       }
+      let userData = jwtDecode(data.id_token)
+      let userJson =
+      {
+        user_name: userData.name,
+        user_id: userData.sub
+      }
+      console.log(userJson)
+
+
+      //新增到後端api 
+      axios.post(`${config.api}/api/user`, userJson).then(response => {
+        let data = response.data;
+        localStorage.setItem("User", JSON.stringify(data))
+         console.log(data);
+      }).catch(error => {
+        console.error("user Login", "Login error.", error)
+
+        return null
+      })
+
+
       this.saveUserToLocalStorage(user)
+
+
       window.$nuxt.$snackbar({
         message: "登入成功！"
       })
