@@ -115,6 +115,8 @@ export default {
       if (status == "OK") {
         console.log(result);
         let steps = result.routes[0].legs[0].steps;
+
+       localStorage.setItem("Routes", JSON.stringify(steps))
         steps.forEach((res, key) => {
           new google.maps.Marker({
             position: {

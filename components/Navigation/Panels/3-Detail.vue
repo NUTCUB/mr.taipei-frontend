@@ -84,6 +84,9 @@ export default {
     },
   },
   mounted() {
+    console.log(JSON.parse(localStorage.getItem('Routes')));
+
+    const routes =JSON.parse(localStorage.getItem('Routes'));
     this.$set(this.data, 'detailRoutes', [
       {
         type: 'ubike',
@@ -106,40 +109,41 @@ export default {
       },
       {
         type: 'metro',
-        route: [
-          {
-            color: 'red',
-            code: 'R07',
-            title: '搭乘淡水信義線',
-            tips: '往象山方向',
-            datetime: '',
-            notice: false,
-          },
-          {
-            color: 'red',
-            code: 'R05',
-            title: '在大安下車',
-            tips: '',
-            datetime: '10:35',
-            notice: true,
-          },
-          {
-            color: '#e9a668',
-            code: 'BR09',
-            title: '搭乘文湖線',
-            tips: '往南港展覽館方向',
-            datetime: '10:38',
-            notice: false,
-          },
-          {
-            color: '#e9a668',
-            code: 'BR14',
-            title: '在大直下車',
-            tips: '出口 1',
-            datetime: '10:52',
-            notice: true,
-          },
-        ],
+        route:routes
+        // route: [
+        //   {
+        //     color: 'red',
+        //     code: 'R07',
+        //     title: '搭乘淡水信義線',
+        //     tips: '往象山方向',
+        //     datetime: '',
+        //     notice: false,
+        //   },
+        //   {
+        //     color: 'red',
+        //     code: 'R05',
+        //     title: '在大安下車',
+        //     tips: '',
+        //     datetime: '10:35',
+        //     notice: true,
+        //   },
+        //   {
+        //     color: '#e9a668',
+        //     code: 'BR09',
+        //     title: '搭乘文湖線',
+        //     tips: '往南港展覽館方向',
+        //     datetime: '10:38',
+        //     notice: false,
+        //   },
+        //   {
+        //     color: '#e9a668',
+        //     code: 'BR14',
+        //     title: '在大直下車',
+        //     tips: '出口 1',
+        //     datetime: '10:52',
+        //     notice: true,
+        //   },
+        // ],
       },
     ])
   },
