@@ -31,9 +31,9 @@
         <div class="tips font-size-small color-text">
           <!-- {{ element.station.tips }} -->
             往{{element.station.transit.headsign}}
-            <div v-if="element.station.transit.arrival_stop.name == '大直站'">
-                {{ element.station.transit.arrival_stop.name }}下車
-            </div>
+            <br>
+            <span v-if="element.station.transit.arrival_stop.name == '大直站'">{{ element.station.transit.arrival_stop.name }}下車</span>    
+            
             <span style="color:#17E68E"> 出口2</span> 
   
         </div>
