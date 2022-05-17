@@ -118,7 +118,7 @@ export default {
 
        localStorage.setItem("Routes", JSON.stringify(steps))
         steps.forEach((res, key) => {
-          new google.maps.Marker({
+          var map =new google.maps.Marker({
             position: {
               lat: res.start_location.lat(),
               lng: res.start_location.lng(),
@@ -140,12 +140,12 @@ export default {
       {
         color: "red",
         code: "R07",
-        exit: "出口 4",
+        exit: "出口 2",
       },
       {
         color: "#e9a668",
         code: "BR14",
-        exit: "出口 1",
+        exit: "出口 2",
       },
     ]);
   },
