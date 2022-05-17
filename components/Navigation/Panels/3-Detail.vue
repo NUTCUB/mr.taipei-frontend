@@ -84,9 +84,9 @@ export default {
     },
   },
   mounted() {
-    console.log(JSON.parse(localStorage.getItem('Routes')));
+    console.log(JSON.parse(localStorage.getItem('Routes')))
 
-    const routes =JSON.parse(localStorage.getItem('Routes'));
+    const routes = JSON.parse(localStorage.getItem('Routes'))
     this.$set(this.data, 'detailRoutes', [
       {
         type: 'ubike',
@@ -109,7 +109,7 @@ export default {
       },
       {
         type: 'metro',
-        route:routes
+        route: routes,
         // route: [
         //   {
         //     color: 'red',

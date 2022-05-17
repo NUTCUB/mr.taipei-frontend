@@ -20,6 +20,7 @@ import InfoPanel from '~/components/Navigation/Panels/1-Info.vue'
 import RoutePanel from '~/components/Navigation/Panels/2-Route.vue'
 import DetailPanel from '~/components/Navigation/Panels/3-Detail.vue'
 import StationMapPanel from '~/components/Navigation/Panels/4-StationMap.vue'
+import FavoriteRotuesPanel from '~/components/Navigation/Panels/Z-FavoriteRotues.vue'
 
 import lineLogin from '~/tools/lineLogin'
 export default {
@@ -68,6 +69,10 @@ export default {
       if (event == 'getStationMap') {
         this.panelHistory.push(StationMapPanel)
         this.currentPanel = StationMapPanel
+      }
+      if (event == 'getFavoriteRotues') {
+        this.panelHistory.push(FavoriteRotuesPanel)
+        this.currentPanel = FavoriteRotuesPanel
       }
     },
     prev() {
