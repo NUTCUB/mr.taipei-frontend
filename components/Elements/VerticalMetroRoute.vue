@@ -1,12 +1,10 @@
-<template>
+ ,<template>
   <div class="elements" v-if="displayElements">
     <div
       v-for="(element, index) in displayElements"
       :key="index"
       :class="element.type"
-   
     >
-
       <div class="icon">
         <MetroStation
           v-if="element.type == 'station' && element.station.transit != null"
@@ -22,25 +20,28 @@
           }"
         ></div>
       </div>
-      <div class="content" v-if="element.type == 'station' && element.station.transit !=null">
+      <div
+        class="content"
+        v-if="element.type == 'station' && element.station.transit != null"
+      >
         <div class="title font-size-regular color-text">
           <!-- {{ element.station.title }} -->
-           捷運{{ element.station.transit.departure_stop.name }}
+          捷運{{ element.station.transit.departure_stop.name }}
           <Icon v-if="element.station.notice" icon="bell-ring"></Icon>
         </div>
         <div class="tips font-size-small color-text">
           <!-- {{ element.station.tips }} -->
-            往{{element.station.transit.headsign}}
-            <br>
-            <span v-if="element.station.transit.arrival_stop.name == '大直站'">{{ element.station.transit.arrival_stop.name }}下車</span>    
-            
-            <span style="color:#17E68E"> 出口2</span> 
-  
+          往{{ element.station.transit.headsign }}
+          <br />
+          <span v-if="element.station.transit.arrival_stop.name == '大直站'"> 
+            {{ element.station.transit.arrival_stop.name }}下車</span>
+
+          <span style="color: #17e68e"> 出口2</span>
         </div>
       </div>
       <div
         class="datetime font-size-small color-text"
-        v-if="element.type == 'station' && element.station.transit !=null"
+        v-if="element.type == 'station' && element.station.transit != null"
       >
         <!-- {{ element.station.datetime }} -->
         {{ element.station.duration.text }}
@@ -50,23 +51,20 @@
 </template>
 
 <script>
-
 export default {
   props: {
     route: {
       type: Array,
     },
   },
-  data(){
-    return{
-      codes:{
-        "東門站":"R07",
-        "大安站":"BR09",
-
-      }
+  data() {
+    return {
+      codes: {
+        東門站: 'R07',
+        大安站: 'BR09',
+      },
     }
   },
-
 
   computed: {
     displayElements() {
