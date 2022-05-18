@@ -63,7 +63,7 @@ export default {
       },{
         type: '終點站',
         station: '大直站',
-        image: 'http://140.131.114.159:3000/pathdraw?startPoint=Exit2&endPoint=Exit2&startStation=Dongmen&transferStation=Daan&destiStation=Dazhi&startTrainHeadto=%E8%B1%A1%E5%B1%B1&destiTrainHeadto=%E5%8D%97%E6%B8%AF%E5%B1%95%E8%A6%BD%E9%A4%A8&imgNum=0',
+        image: 'http://140.131.114.159:3000/pathdraw?startPoint=Exit2&endPoint=Exit2&startStation=Dongmen&transferStation=Daan&destiStation=Dazhi&startTrainHeadto=%E8%B1%A1%E5%B1%B1&destiTrainHeadto=%E5%8D%97%E6%B8%AF%E5%B1%95%E8%A6%BD%E9%A4%A8&imgNum=2',
       }
     ])
   },
