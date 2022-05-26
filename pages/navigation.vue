@@ -1,11 +1,12 @@
 <template>
   <div class="wrapper">
-    <Icon
-      v-if="panelHistory.length > 1"
-      @click.native="prev"
-      icon="arrow-left"
-      class="prev"
-    ></Icon>
+    
+      <Icon
+        v-if="panelHistory.length > 1"
+        @click.native="prev"
+        icon="arrow-left"
+        class="prev"
+      ></Icon>
     <component
       :is="currentPanel"
       :data="data"
@@ -59,6 +60,9 @@ export default {
         this.currentPanel = InfoPanel
       }
       if (event == 'getRoute') {
+        if (this.panelHistory.length <= 1) {
+          this.panelHistory.push(InfoPanel)
+        }
         this.panelHistory.push(RoutePanel)
         this.currentPanel = RoutePanel
       }
@@ -79,6 +83,9 @@ export default {
       if (this.panelHistory.length > 1) {
         this.panelHistory.pop()
         this.currentPanel = this.panelHistory[this.panelHistory.length - 1]
+        if(this.currentPanel == InfoPanel){
+          this.panelHistory = []
+        }
       }
     },
   },
@@ -92,11 +99,16 @@ export default {
 }
 .prev {
   position: fixed;
-  top: 3rem;
+  bottom: 1.5rem;
   left: 1rem;
-
-  font-size: 3rem;
+  /* background-color: #f3f5f8; */
+  width: 20%;
+  font-size: 2rem;
   color: #17e68e;
-  text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  /* border-radius: 10px; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 </style>
