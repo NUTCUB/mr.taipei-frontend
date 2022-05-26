@@ -6,13 +6,15 @@
         <span class="font-size-regular color-focus"> NT 45 </span>
       </div>
       <div class="cols mt-3">
-        <div class="col-6">
-          <div class="rows flex-cols-flex-start">
+        <div class="col- ">
+          <div class="rows flex-cols-flex-start ">
             <span class="font-size-small color-secondary">起點</span>
+          </div>
+          <div class=" flex-cols-flex-start ">
             <span class="font-size-large color-text">{{
               data.fromLocation
             }}</span>
-            <span class="color-secondary font-size-small">{{
+            <span class="color-secondary font-size-small ml-3">{{
               data.leaveTime
                 .toLocaleTimeString(undefined, {
                   hour12: false,
@@ -23,13 +25,17 @@
             }}</span>
           </div>
         </div>
-        <div class="col-6">
+      </div>
+      <div class="cols mt-3">
+        <div class="col-12">
           <div class="rows flex-cols-flex-start">
             <span class="font-size-small color-secondary">目的地</span>
+          </div>
+          <div class=" flex-cols-flex-start">
             <span class="font-size-large color-text">{{
               data.toLocation
             }}</span>
-            <span class="color-secondary font-size-small">{{
+            <span class="color-secondary font-size-small mr-0">{{
               new Date(data.leaveTime.getTime() + 1000 * 60 * 20)
                 .toLocaleTimeString(undefined, {
                   hour12: false,
@@ -55,24 +61,29 @@
         </div>
       </div>
 
-      <div class="cols mt-4">
-        <div class="col-6 p-1">
-          <Button
-            @click="$emit('next', 'setNotice')"
-            color="#e9a668"
-            size="small"
-          >
-            <Icon icon="bell-ring"></Icon>
-            設定下車提醒
-          </Button>
-        </div>
-        <div class="col-6 p-1">
-          <Button @click="$emit('next', 'getStationMap')" size="small"
-            >車站內部路線</Button
-          >
-        </div>
-      </div>
+      
     </Panel>
+    <div class="cols mb-1">
+      <div class="col-3 p-1">
+        <Button color="#f3f5f8" textColor="#00e88e" >
+          &nbsp;
+        </Button>
+      </div>
+      <div class="col-4 p-1">
+        <Button
+          @click="$emit('next', 'setNotice')"
+          color="#e9a668"
+          size="small"
+        >
+          <Icon icon="bell-ring"></Icon>
+        </Button>
+      </div>
+      <div class="col-5 p-1">
+        <Button @click="$emit('next', 'getStationMap')" size="small"
+          >車站內部路線</Button
+        >
+      </div>
+    </div>
   </div>
 </template>
 
