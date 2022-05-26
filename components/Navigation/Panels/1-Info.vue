@@ -2,11 +2,13 @@
   <div class="wrapper">
     <Panel v-if="!menu">
       <div class="cols">
-        <div class="col-6 p-2">
-          <Input v-model="data.fromLocation" title="起點"></Input>
+        <div class="col-12 p-2">
+          <Input v-model="data.fromLocation" title="起點"/>
         </div>
-        <div class="col-6 p-2">
-          <Input v-model="data.toLocation" title="目的地"></Input>
+      </div>
+      <div class="cols">
+        <div class="col-12 p-2">
+          <Input v-model="data.toLocation" title="目的地"/>
         </div>
       </div>
       <div class="rows align-items-center mt-4 mb-2">
@@ -26,7 +28,7 @@
       <div class="cols">
         <div class="col-5 rows align-items-center p-3">
           <img class="avatar" src="/assets/profile.png" alt="" />
-          <span class="color-text font-size-regular mt-2">小宋</span>
+          <span class="color-text font-size-regular mt-2">{{username}}</span>
         </div>
         <div class="col-7">
           <div class="rows">
@@ -38,7 +40,7 @@
               >尋找遺失物</Button
             >
             <Button size="small" color="#eca468" class="mb-3" @click="$emit('next', 'getFavoriteRotues')">路線收藏</Button>
-            <Button size="small">登出</Button>
+            <Button size="small" @click="menu = !menu">路線規劃</Button>
           </div>
         </div>
       </div>
@@ -62,15 +64,22 @@
 </template>
 
 <script>
+import lineLogin from '~/tools/lineLogin'
 export default {
   props: {
     data: {
       type: Object,
     },
   },
+  mounted(){
+    if(lineLogin.getUser()){
+      this.username = lineLogin.getUser().data.name
+    }
+  },
   data() {
     return {
       menu: false,
+      username: null
     }
   },
 }
