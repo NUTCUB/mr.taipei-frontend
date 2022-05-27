@@ -128,10 +128,10 @@ export default {
       if (status == 'OK') {
         console.log(result)
         let steps = result.routes[0].legs[0].steps
-        localStorage.setItem('travelTime', JSON.stringify(result.routes[0].legs[0]))
-        let  travelTime = JSON.parse(localStorage.getItem('travelTime'))
-        this.departure_time = travelTime.departure_time.text
-        this.arrival_time = travelTime.arrival_time.text
+        // localStorage.setItem('travelTime', JSON.stringify(result.routes[0].legs[0]))
+        // let  travelTime = JSON.parse(localStorage.getItem('travelTime'))
+        // this.departure_time = travelTime.departure_time.text
+        // this.arrival_time = travelTime.arrival_time.text
         localStorage.setItem('Routes', JSON.stringify(steps))
         steps.forEach((res, key) => {
           var map = new google.maps.Marker({
