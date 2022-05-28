@@ -2,16 +2,6 @@
   font-smooth: always;
 }
 
-*:not(pre) {
-  font-family: 'Noto Sans TC', 'SF Pro TC', 'SF Pro Text', 'SF Pro Icons',
-    'PingFang TC', 'Helvetica Neue', 'Helvetica', 'Arial', 'Microsoft JhengHei',
-    wf_SegoeUI, 'Segoe UI', Segoe, 'Segoe WP', Tahoma, Verdana, Ubuntu,
-    'Bitstream Vera Sans', 'DejaVu Sans', Tahoma, 微軟正黑體, 'LiHei Pro',
-    'WenQuanYi Micro Hei', 'Droid Sans Fallback', 'AR PL UMing TW', Roboto,
-    'Helvetica Neue', 'Hiragino Maru Gothic ProN', メイリオ,
-    'ヒラギノ丸ゴ ProN W4', Meiryo, 'Droid Sans', sans-serif;
-}
-
 /* Font Size */
 .font-size-micro {
   font-size: 0.6em;
@@ -399,14 +389,11 @@
 .justify-content-center {
   justify-content: center;
 }
+.justify-content-center {
+  justify-content: center;
+}
 .justify-content-space-between {
   justify-content: space-between;
-}
-.justify-content-flex-start {
-  justify-content: flex-start;
-}
-.justify-content-flex-end {
-  justify-content: flex-end;
 }
 .align-items-center {
   align-items: center;
@@ -419,9 +406,6 @@
 }
 .flex-col-flex-end {
   align-items: flex-end;
-}
-.flex-grow {
-  flex-grow: 1;
 }
 
 /* Text */
@@ -437,45 +421,4 @@
 
 hr {
   border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* Utils */
-.w-100 {
-  width:100%;
-}
-
-/* SnackBar */
-.snackbar {
-  position: fixed;
-  top:0;
-  left: 0;
-  right: 0;
-  z-index: 9999;
-
-  background-color: #17e68e;
-  color: black;
-
-  font-size:1.2rem;
-  font-weight: regular;
-
-  padding: 0.8rem;
-  box-sizing: border-box;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  border-radius: 0.5rem;
-  animation: snackbar-slide-in 1s forwards;
-
-  transform: translateY(-100%);
-}
-
-@keyframes snackbar-slide-in {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(0%);
-  }
 }

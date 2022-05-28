@@ -1,5 +1,3 @@
-import config from "./config"
-
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
@@ -9,16 +7,13 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'MR.Taipei',
+    title: 'mr.taipei',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
-    script: [{
-      src: `https://maps.googleapis.com/maps/api/js?key=${config.map.key}`
-    }],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
@@ -26,19 +21,18 @@ export default {
   css: [
     '~/assets/css/main.css',
     'normalize.css/normalize.css',
-    '@mdi/font/css/materialdesignicons.min.css',
+    '@mdi/font/css/materialdesignicons.min.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    "~/plugins/snackbar.js"
-  ],
+  plugins: [],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
-  components: ['~/components/Elements'],
+  components: [
+    '~/components/Elements',
+  ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-
   buildModules: [],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -60,7 +54,7 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'zh-tw',
+      lang: 'en',
     },
   },
 

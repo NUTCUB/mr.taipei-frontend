@@ -1,14 +1,14 @@
 <template>
   <div class="wrapper">
-    <Panel>
+    <Panel style="overflow: auto; height: 650px;">
       <div class="justify-content-space-between align-items-flex-end">
         <span class="font-size-huge color-focus"> 車站內部路線 </span>
       </div>
-
+      
       <div
         v-for="(station, index) in data.sationMaps"
         :key="index"
-        class="station"
+        class="station" 
       >
         <span class="font-size-mini color-secondary">
           {{ station.type }}
@@ -20,25 +20,31 @@
         <hr />
       </div>
 
-      <div class="cols mt-4">
-        <div class="col-6 p-1">
-          <Button
-            @click="$emit('next', 'setNotice')"
-            color="#e9a668"
-            size="small"
-          >
-            <Icon icon="bell-ring"></Icon>
-            設定下車提醒
-          </Button>
-        </div>
-
-        <div class="col-6 p-1">
-          <Button @click="$emit('next', 'getDetail')" size="small"
-            >詳細路線資料</Button
-          >
-        </div>
-      </div>
+      
     </Panel>
+    <div class="cols mb-1">
+      <div class="col-3 p-1">
+        <Button color="#f3f5f8" textColor="#00e88e" >
+          &nbsp;
+        </Button>
+      </div>
+      <div class="col-4 p-1">
+        <Button
+          @click="$emit('next', 'setNotice')"
+          color="#e9a668"
+          size="small"
+        >
+          <Icon icon="bell-ring"></Icon>
+        </Button>
+      </div>
+
+      <div class="col-5 p-1">
+        <Button @click="$emit('next', 'getDetail')" size="small"
+          >詳細路線資料</Button
+        >
+      </div>
+      
+    </div>
   </div>
 </template>
 
@@ -73,6 +79,8 @@ export default {
 <style scoped>
 .wrapper {
   width: 100%;
+  /* height: 100%;
+  overflow: scroll; */
   box-sizing: border-box;
 }
 
@@ -80,8 +88,9 @@ export default {
   margin-top: 1rem;
 }
 
+
 .station {
-  margin-top: 1rem;
+  margin-top: 0.01rem;
   display: flex;
   flex-direction: column;
 }
@@ -91,6 +100,6 @@ export default {
 }
 
 .station > * {
-  margin-top: 0.4rem;
+  margin-top: 0.2rem;
 }
 </style>

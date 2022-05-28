@@ -5,40 +5,37 @@
         <span class="font-size-huge color-focus"> 路線資訊 </span>
         <span class="font-size-regular color-focus"> NT 45 </span>
       </div>
-      <div class="cols mt-3">
-        <div class="col-6">
-          <div class="rows flex-cols-flex-start">
-            <span class="font-size-small color-secondary">起點</span>
-            <span class="font-size-large color-text">{{
-              data.fromLocation
-            }}</span>
-            <span class="color-secondary font-size-small">{{
-              data.leaveTime
-                .toLocaleTimeString(undefined, {
-                  hour12: false,
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })
-                .replace('24:', '00:')
-            }}</span>
-          </div>
+      
+      <div class="col-12 mt-3">
+        <div class="rows flex-cols-flex-start ">
+          <span class="font-size-small color-secondary">起點</span>
         </div>
-        <div class="col-6">
-          <div class="rows flex-cols-flex-start">
-            <span class="font-size-small color-secondary">目的地</span>
-            <span class="font-size-large color-text">{{
-              data.toLocation
-            }}</span>
-            <span class="color-secondary font-size-small">{{
-              new Date(data.leaveTime.getTime() + 1000 * 60 * 20)
-                .toLocaleTimeString(undefined, {
-                  hour12: false,
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })
-                .replace('24:', '00:')
-            }}</span>
-          </div>
+      </div>
+      
+      <div class="cols mt-1">
+        <div class="col-10 flex-cols-flex-start ">
+          <span class="font-size-large color-text">{{
+            data.fromLocation
+          }}</span>
+        </div>
+        <div class="col-2 flex-cols-flex-start arrival-time">
+          <span class="color-secondary font-size-small ">{{ departure_time }}</span>
+        </div>
+      </div>
+      
+      <div class="col-12 mt-3">
+        <div class="rows flex-cols-flex-start">
+          <span class="font-size-small color-secondary">目的地</span>
+        </div>
+      </div>
+      <div class="cols mt-1">
+        <div class="col-10 flex-cols-flex-start">
+          <span class="font-size-large color-text">{{
+            data.toLocation
+          }}</span>
+        </div>
+        <div class="col-2 flex-cols-flex-start arrival-time">
+          <span class="color-secondary font-size-small mr-0" >{{ arrival_time }}</span>
         </div>
       </div>
       <div v-if="data.detailRoutes">
@@ -55,24 +52,29 @@
         </div>
       </div>
 
-      <div class="cols mt-4">
-        <div class="col-6 p-1">
-          <Button
-            @click="$emit('next', 'setNotice')"
-            color="#e9a668"
-            size="small"
-          >
-            <Icon icon="bell-ring"></Icon>
-            設定下車提醒
-          </Button>
-        </div>
-        <div class="col-6 p-1">
-          <Button @click="$emit('next', 'getStationMap')" size="small"
-            >車站內部路線</Button
-          >
-        </div>
-      </div>
+      
     </Panel>
+    <div class="cols mb-1">
+      <div class="col-3 p-1">
+        <Button color="#f3f5f8" textColor="#00e88e" >
+          &nbsp;
+        </Button>
+      </div>
+      <div class="col-4 p-1">
+        <Button
+          @click="$emit('next', 'setNotice')"
+          color="#e9a668"
+          size="small"
+        >
+          <Icon icon="bell-ring"></Icon>
+        </Button>
+      </div>
+      <div class="col-5 p-1">
+        <Button @click="$emit('next', 'getStationMap')" size="small"
+          >車站內部路線</Button
+        >
+      </div>
+    </div>
   </div>
 </template>
 
@@ -85,7 +87,10 @@ export default {
   },
   mounted() {
     console.log(JSON.parse(localStorage.getItem('Routes')))
-
+    let  travelTime = JSON.parse(localStorage.getItem('travelTime'))
+    this.departure_time = travelTime.departure_time.text
+    this.arrival_time = travelTime.arrival_time.text
+    this.duration = travelTime.duration.text
     const routes = JSON.parse(localStorage.getItem('Routes'))
     this.$set(this.data, 'detailRoutes', [
       {
@@ -147,6 +152,13 @@ export default {
       },
     ])
   },
+  data(){
+    return {
+      arrival_time: null,
+      departure_time: null,
+      duration: null
+    }
+  }
 }
 </script>
 
@@ -159,4 +171,13 @@ export default {
 .wrapper > div {
   margin-top: 1rem;
 }
+.arrival-time {
+  position: relative;
+}
+.arrival-time > span {
+  position:absolute; 
+  bottom: 0; 
+  
+}
+
 </style>

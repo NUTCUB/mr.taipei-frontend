@@ -1,61 +1,26 @@
 <template>
   <div>
-    <section ref="map" id="map"></section>
-
+    <div style="height: 100vh">
+      <client-only>
+        <l-map :zoom="15" :center="[25.0462897, 121.5166667]">
+          <l-tile-layer
+            url="https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png"
+          ></l-tile-layer>
+          <l-marker :lat-lng="[25.0462897, 121.5166667]"></l-marker>
+        </l-map>
+      </client-only>
+    </div>
     <div class="wrapper">
-      <nuxt v-if="map" />
+      <nuxt />
     </div>
   </div>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      map: null,
-      position: {
-        latitude: 25.0487269,
-        longitude: 121.5181263,
-      },
-    };
-  },
-
-  async mounted() {
-    if (navigator.geolocation) {
-      await new Promise((resolve) => {
-        navigator.geolocation.getCurrentPosition((position) => {
-          this.position.latitude = position.coords.latitude;
-          this.position.longitude = position.coords.longitude;
-          resolve();
-        });
-      });
-    } else {
-      console.warn("Brower does not suppot gelocation API.");
-    }
-
-    this.map = new google.maps.Map(this.$refs.map, {
-      zoom: 15,
-      center: new google.maps.LatLng(this.position.latitude, this.position.longitude),
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-    });
-    this.$nuxt.$map = this.map;
-
-    new google.maps.Marker({
-      position: new google.maps.LatLng(this.position.latitude, this.position.longitude),
-      map: this.map,
-    });
-  },
-};
+export default {}
 </script>
 
 <style scoped>
-#map {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  top: 0;
-}
 .wrapper {
   position: fixed;
   top: 0;
