@@ -31,31 +31,16 @@
       <div class="cols mt-4 mb-2">
         <div class="col-4 rows">
           <span class="color-secondary font-size-small">出發時間</span>
-          <span class="color-text font-size-regular">{{
-            data.leaveTime
-              .toLocaleTimeString(undefined, {
-                hour12: false,
-
-                hour: '2-digit',
-                minute: '2-digit',
-              })
-              .replace('24:', '00:')
-          }}</span>
+          <span class="color-text font-size-regular">{{ departure_time }}</span>
         </div>
         <div class="col-4 rows">
           <span class="color-secondary font-size-small">抵達時間</span>
-          <span class="color-text font-size-regular">{{
-            arrival_time
-          }}</span>
+          <span class="color-text font-size-regular">{{ arrival_time }}</span>
         </div>
         <div class="col-4 rows">
           <span class="color-secondary font-size-small">&nbsp;</span>
-          <div class="cols">
-            <span class="color-focus font-size-regular">25</span>
-
-            <span class="color-secondary font-size-regular"
-              >&nbsp;&nbsp;分鐘</span
-            >
+          <div class="cols ml-3">
+            <span class="color-focus font-size-regular">{{duration}}</span>
           </div>
         </div>
       </div>
@@ -128,10 +113,7 @@ export default {
       if (status == 'OK') {
         console.log(result)
         let steps = result.routes[0].legs[0].steps
-        // localStorage.setItem('travelTime', JSON.stringify(result.routes[0].legs[0]))
-        // let  travelTime = JSON.parse(localStorage.getItem('travelTime'))
-        // this.departure_time = travelTime.departure_time.text
-        // this.arrival_time = travelTime.arrival_time.text
+        localStorage.setItem('travelTime', JSON.stringify(result.routes[0].legs[0]))
         localStorage.setItem('Routes', JSON.stringify(steps))
         steps.forEach((res, key) => {
           var map = new google.maps.Marker({
@@ -151,7 +133,10 @@ export default {
         })
       }
     })
-
+    let  travelTime = JSON.parse(localStorage.getItem('travelTime'))
+    this.departure_time = travelTime.departure_time.text
+    this.arrival_time = travelTime.arrival_time.text
+    this.duration = travelTime.duration.text
     this.$set(this.data, 'route', [
       {
         color: 'red',
@@ -168,7 +153,8 @@ export default {
   data(){
     return {
       arrival_time: null,
-      departure_time: null
+      departure_time: null,
+      duration: null
     }
   }
 }

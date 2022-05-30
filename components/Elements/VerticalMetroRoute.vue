@@ -62,6 +62,8 @@ export default {
       codes: {
         東門站: 'R07',
         大安站: 'BR09',
+        Dongmen: 'R07',
+        'Daan Station': 'BR09',
       },
     }
   },

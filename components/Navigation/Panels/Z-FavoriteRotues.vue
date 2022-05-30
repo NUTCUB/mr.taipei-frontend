@@ -15,8 +15,11 @@
       </div>
 
       <div class="cols mt-4 p-1">
-        <Button @click="$emit('next', 'getDetail')" size="small" class="w-100"
+        <!-- <Button @click="$emit('next', 'getDetail')" size="small" class="w-100"
           >搜尋最佳路線</Button
+        > -->
+        <Button @click="$emit('next', 'getInfoPanel')" size="small" class="w-100"
+          >返回規劃路線</Button
         >
       </div>
     </Panel>
@@ -34,11 +37,11 @@ export default {
     return {
       selectedRoute: null,
       routes: [
-        { start: '租屋處', end: '實踐大學台北校區' },
-        { start: '租屋處', end: '實踐大學台北校區' },
-        { start: '租屋處', end: '實踐大學台北校區' },
-        { start: '租屋處', end: '實踐大學台北校區' },
-        { start: '租屋處', end: '實踐大學台北校區' },
+        { start: '信愛公園', end: '實踐大學台北校區' },
+        { start: '臺北商業大學', end: '臺北科技大學' },
+        { start: '光華商場', end: '大安森林公園' },
+        { start: '臺北101', end: 'Apple A13' },
+        { start: '台北車站', end: '寧夏夜市' },
       ],
     }
   },
