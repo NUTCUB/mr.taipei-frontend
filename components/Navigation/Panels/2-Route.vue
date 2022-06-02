@@ -134,9 +134,13 @@ export default {
       }
     })
     let  travelTime = JSON.parse(localStorage.getItem('travelTime'))
-    this.departure_time = travelTime.departure_time.text
-    this.arrival_time = travelTime.arrival_time.text
-    this.duration = travelTime.duration.text
+    setTimeout(() => {
+      this.departure_time = travelTime.departure_time.text
+      this.arrival_time = travelTime.arrival_time.text
+      this.duration = travelTime.duration.text
+
+    }, "3000")
+   
     this.$set(this.data, 'route', [
       {
         color: 'red',
