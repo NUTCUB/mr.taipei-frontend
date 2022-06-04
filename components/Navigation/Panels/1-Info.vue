@@ -27,7 +27,7 @@
         <Panel v-else>
             <div class="cols">
                 <div class="col-5 rows align-items-center p-3">
-                    <img class="avatar" src="/assets/profile.png" alt="" />
+                    <img class="avatar" :src="userimg" alt="" />
                     <span class="color-text font-size-regular mt-2">{{ username }}</span>
                 </div>
                 <div class="col-7">
