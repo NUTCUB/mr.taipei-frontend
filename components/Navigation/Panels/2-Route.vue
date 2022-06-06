@@ -40,22 +40,19 @@
         <div class="col-4 rows">
           <span class="color-secondary font-size-small">&nbsp;</span>
           <div class="cols ml-3">
-            <span class="color-focus font-size-regular">{{duration}}</span>
+            <span class="color-focus font-size-regular">{{ duration }}</span>
           </div>
         </div>
       </div>
     </Panel>
     <div class="cols">
-        <div class="col-3 p-2" >
-          <Button color="#f3f5f8" textColor="#00e88e">
-            &nbsp;
-          </Button>
-        </div>
-        <div class="col-9 p-2">
-          <Button @click="$emit('next', 'getDetail')">詳細路線資料</Button>
-        </div>
+      <div class="col-3 p-2">
+        <Button color="#f3f5f8" textColor="#00e88e"> &nbsp; </Button>
+      </div>
+      <div class="col-9 p-2">
+        <Button @click="$emit('next', 'getDetail')">詳細路線資料</Button>
+      </div>
     </div>
-    
   </div>
 </template>
 
@@ -64,13 +61,10 @@ export default {
   props: {
     data: {
       type: Object,
-    },
-    map: {
-      type: google.maps.Map,
-    },
+    }
   },
 
-  mounted() {
+  async mounted() {
     // let geoCoder = new google.maps.Geocoder()
     // geoCoder.geocode(
     //   {
@@ -96,51 +90,62 @@ export default {
     //     }
     //   }
     // )
-    let ds = new google.maps.DirectionsService()
-    let dD = new google.maps.DirectionsRenderer()
-    // let service = new google.maps.DistanceMatrixService(); 
+    // let service = new google.maps.DistanceMatrixService();
+
+    let directionsService = new google.maps.DirectionsService()
+    let directionsRenderer = new google.maps.DirectionsRenderer()
+
     let request = {
       origin: this.data.fromLocation,
       destination: this.data.toLocation,
       travelMode: 'TRANSIT',
-      transitOptions: { 
-        modes: ['SUBWAY']},
+      transitOptions: {
+        modes: ['SUBWAY'],
+      },
     }
-    
 
-    dD.setMap(this.map)
-    ds.route(request, function (result, status) {
-      if (status == 'OK') {
-        console.log(result)
-        let steps = result.routes[0].legs[0].steps
-        localStorage.setItem('travelTime', JSON.stringify(result.routes[0].legs[0]))
-        localStorage.setItem('Routes', JSON.stringify(steps))
-        steps.forEach((res, key) => {
-          var map = new google.maps.Marker({
-            position: {
-              lat: res.start_location.lat(),
-              lng: res.start_location.lng(),
-            },
-            label: { text: key + '', color: '#fff' },
-            map: map,
-          })
-        })
+    directionsRenderer.setMap(this.$nuxt.$map)
 
-        dD.setDirections(result)
-      } else {
-        this.$snackbar({
-          message: '找不到此起點',
+    let directions = await new Promise((r) => {
+      directionsService.route(request, function (result, status) {
+        r({
+          result,
+          status,
         })
-      }
+      })
     })
-    let  travelTime = JSON.parse(localStorage.getItem('travelTime'))
-    setTimeout(() => {
-      this.departure_time = travelTime.departure_time.text
-      this.arrival_time = travelTime.arrival_time.text
-      this.duration = travelTime.duration.text
 
-    }, "3000")
-   
+    if (directions.status == 'OK') {
+      console.log('[Navigation]', '[DirectionsService]', directions)
+
+      let steps = directions.result.routes[0].legs[0].steps
+      let routeTime = directions.result.routes[0].legs[0]
+
+      localStorage.setItem('Navigation:RouteTime', JSON.stringify(routeTime))
+
+      this.departure_time = routeTime.departure_time.text
+      this.arrival_time = routeTime.arrival_time.text
+      this.duration = routeTime.duration.text
+
+      localStorage.setItem('Routes', JSON.stringify(steps))
+      steps.forEach((res, key) => {
+        new google.maps.Marker({
+          position: {
+            lat: res.start_location.lat(),
+            lng: res.start_location.lng(),
+          },
+          label: { text: key + '', color: '#fff' },
+          map: this.$nuxt.$map,
+        })
+      })
+
+      directionsRenderer.setDirections(directions.result)
+    } else {
+      window.$nuxt.$snackbar({
+        message: '找不到此起點',
+      })
+    }
+
     this.$set(this.data, 'route', [
       {
         color: 'red',
@@ -154,13 +159,13 @@ export default {
       },
     ])
   },
-  data(){
+  data() {
     return {
       arrival_time: null,
       departure_time: null,
-      duration: null
+      duration: null,
     }
-  }
+  },
 }
 </script>
 

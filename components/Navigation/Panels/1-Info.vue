@@ -14,26 +14,38 @@
       <div class="rows align-items-center mt-4 mb-2">
         <span class="color-secondary font-size-small">出發時間</span>
         <span class="color-text font-size-huge">{{
-            data.leaveTime
-              .toLocaleTimeString(undefined, {
-                hour12: false,
-                hour: "2-digit",
-                minute: "2-digit",
-              })
-              .replace("24:", "00:")
+          data.leaveTime
+            .toLocaleTimeString(undefined, {
+              hour12: false,
+              hour: '2-digit',
+              minute: '2-digit',
+            })
+            .replace('24:', '00:')
         }}</span>
       </div>
     </Panel>
     <Panel v-else>
       <div class="cols">
         <div class="col-5 rows align-items-center p-3">
-          <img class="avatar" :src="userimg" alt="" />
-          <span class="color-text font-size-regular mt-2">{{ username }}</span>
+          <img class="avatar" :src="user.avatar" alt="" />
+          <span class="color-text font-size-regular mt-2">{{ user.name }}</span>
         </div>
         <div class="col-7">
           <div class="rows">
-            <Button size="small" color="#eca468" class="mb-3" @click="$router.push('/find')">尋找遺失物</Button>
-            <Button size="small" color="#eca468" class="mb-3" @click="$emit('next', 'getFavoriteRotues')">路線收藏</Button>
+            <Button
+              size="small"
+              color="#eca468"
+              class="mb-3"
+              @click="$router.push('/find')"
+              >尋找遺失物</Button
+            >
+            <Button
+              size="small"
+              color="#eca468"
+              class="mb-3"
+              @click="$emit('next', 'getFavoriteRotues')"
+              >路線收藏</Button
+            >
             <Button size="small" @click="menu = !menu">路線規劃</Button>
           </div>
         </div>
@@ -48,7 +60,9 @@
           </Button>
         </div>
         <div class="col-9 p-2">
-          <Button v-if="!menu" @click="$emit('next', 'getRoute')">搜尋最佳路線</Button>
+          <Button v-if="!menu" @click="$emit('next', 'getRoute')"
+            >搜尋最佳路線</Button
+          >
         </div>
       </div>
     </div>
@@ -64,23 +78,27 @@ export default {
     },
   },
   async mounted() {
-
-    setTimeout(() => {
-      this.username = lineLogin.getUser().data.name
-      this.userimg = lineLogin.getUser().data.picture
-
-    }, "3000")
-
-
-
-
-
+    let loginCounter = 0
+    let interval = setInterval((_) => {
+      let user = lineLogin.getUser()
+      if (user) {
+        this.user.name = user.data.name
+        this.user.avatar = user.data.picture
+        clearInterval(interval)
+      }
+      loginCounter++
+      if (loginCounter > 15) {
+        clearInterval(interval)
+      }
+    }, 200)
   },
   data() {
     return {
       menu: false,
-      username: null,
-      userimg: null
+      user: {
+        name: '',
+        avatar: '',
+      },
     }
   },
 }
@@ -92,7 +110,7 @@ export default {
   box-sizing: border-box;
 }
 
-.wrapper>div {
+.wrapper > div {
   margin-top: 1rem;
 }
 
