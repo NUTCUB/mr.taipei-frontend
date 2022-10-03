@@ -66,7 +66,16 @@
         </div>
       </div>
       <div class="" v-if="mode == 'report'">
-        <div class="reportUpload">上傳遺失物圖片</div>
+        <div class="reportUpload" @click="$refs.fileInput.click()">
+          <img v-if="report.itemImage" :src="report.itemImage" />
+          <span v-else>上傳遺失物圖片</span>
+        </div>
+        <input
+          type="file"
+          style="display: none"
+          @change="fileSelected"
+          ref="fileInput"
+        />
         <Input
           title="物品名稱"
           titleColor="#000"
@@ -97,6 +106,7 @@
           backgroundColor="#fff"
           color="#000"
           class="mb-3 reportInput"
+          type="datetime-local"
           v-model="report.reportTime"
         ></Input>
 
@@ -129,11 +139,57 @@ export default {
       report: {
         itemPhoto: '',
         itemName: '',
+        itemImageFile: null,
+        itemImage: null,
         itemLocation: '',
         itemColor: '',
-        reportTime: new Date(),
+        reportTime: new Date(
+          new Date().getTime() + new Date().getTimezoneOffset() * -1 * 60 * 1000
+        )
+          .toISOString()
+          .slice(0, 16),
       },
     }
+  },
+  methods: {
+    async fileSelected(event) {
+      if (event.target.files[0] == undefined) return
+      this.report.itemImageFile = event.target.files[0]
+      this.report.itemImage = await this.uploadImage(this.report.itemImageFile)
+      let itemInfo = await this.getItemInfo(this.report.itemImage)
+      this.report.itemColor = itemInfo.item_color
+      this.report.itemName = itemInfo.item_name
+    },
+    async uploadImage(file) {
+      var authHeaders = new Headers()
+      authHeaders.append('Authorization', 'Client-ID 27a8586bbc7df9a')
+
+      var formData = new FormData()
+      formData.append('image', file)
+
+      return fetch('https://api.imgur.com/3/image', {
+        method: 'POST',
+        headers: authHeaders,
+        body: formData,
+        redirect: 'follow',
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          return result.data.link
+        })
+        .catch((error) => console.log('error', error))
+    },
+    async getItemInfo(url) {
+      return fetch('https://ntub.fr.rs/objectDetection?img_url=' + url)
+        .then((response) => response.json())
+        .then((result) => {
+          return result
+        })
+        .catch((error) => {
+          console.log('error', error)
+          return {}
+        })
+    },
   },
   layout: 'default-noPadding',
 }
@@ -236,5 +292,10 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.reportUpload > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>

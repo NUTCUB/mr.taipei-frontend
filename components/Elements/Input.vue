@@ -14,7 +14,7 @@
         color: color,
         background: backgroundColor,
       }"
-      type="text"
+      :type="type"
       :value="value"
       @input="$emit('input', $event.target.value)"
     />
@@ -48,6 +48,10 @@ export default {
     value: {
       type: String,
       default: '',
+    },
+    type: {
+      type: String,
+      default: 'text',
     },
   },
   computed: {
