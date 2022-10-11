@@ -19,6 +19,7 @@ export default {
     url.searchParams.append('max_age', '3600')
     url.searchParams.append('ui_locales', 'zh-TW')
     url.searchParams.append('bot_prompt', 'normal')
+    url.searchParams.append('disable_auto_login', 'true')
     return url
   },
   async issueAccessToken(code, state) {
