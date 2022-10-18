@@ -115,7 +115,7 @@ export default {
       })
     })
 
-    if (directions.status == 'OK') {
+    if (directions.status == 'OK' && directions.result.routes[0].legs[0].departure_time) {
       console.log('[Navigation]', '[DirectionsService]', directions)
 
       let steps = directions.result.routes[0].legs[0].steps
