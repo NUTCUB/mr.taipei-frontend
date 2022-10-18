@@ -1,1 +1,1 @@
-module.exports = ['micro', 'small', 'regular', 'large', 'huge',]
+module.exports = ['micro', 'small', 'regular', 'large', 'huge']

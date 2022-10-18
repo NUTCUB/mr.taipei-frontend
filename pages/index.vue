@@ -20,7 +20,6 @@ export default {
       } else {
         let url = lineLogin.generateLoginURL()
         window.open(url, '_self')
-    
       }
     },
   },

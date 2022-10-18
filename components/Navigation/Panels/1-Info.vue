@@ -17,18 +17,18 @@
           data.leaveTime
             .toLocaleTimeString(undefined, {
               hour12: false,
-              hour: "2-digit",
-              minute: "2-digit",
+              hour: '2-digit',
+              minute: '2-digit',
             })
-            .replace("24:", "00:")
+            .replace('24:', '00:')
         }}</span>
       </div>
     </Panel>
     <Panel v-else>
       <div class="cols">
         <div class="col-5 rows align-items-center p-3">
-          <img class="avatar" :src="userimg" alt="" />
-          <span class="color-text font-size-regular mt-2">{{ username }}</span>
+          <img class="avatar" :src="user.avatar" alt="" />
+          <span class="color-text font-size-regular mt-2">{{ user.name }}</span>
         </div>
         <div class="col-7">
           <div class="rows">
@@ -60,7 +60,9 @@
           </Button>
         </div>
         <div class="col-9 p-2">
-          <Button v-if="!menu" @click="$emit('next', 'getRoute')">搜尋最佳路線</Button>
+          <Button v-if="!menu" @click="$emit('next', 'getRoute')"
+            >搜尋最佳路線</Button
+          >
         </div>
       </div>
     </div>
@@ -75,24 +77,28 @@ export default {
       type: Object,
     },
   },
-  async mounted(){
-
-     setTimeout(() => {
-      this.username =  lineLogin.getUser().data.name
-      this.userimg =  lineLogin.getUser().data.picture
-
-}, "3000")
-
-
-
-
-
+  async mounted() {
+    let loginCounter = 0
+    let interval = setInterval((_) => {
+      let user = lineLogin.getUser()
+      if (user) {
+        this.user.name = user.data.name
+        this.user.avatar = user.data.picture
+        clearInterval(interval)
+      }
+      loginCounter++
+      if (loginCounter > 15) {
+        clearInterval(interval)
+      }
+    }, 200)
   },
   data() {
     return {
       menu: false,
-      username: null,
-      userimg:null
+      user: {
+        name: '',
+        avatar: '',
+      },
     }
   },
 }
