@@ -71,6 +71,8 @@
 
 <script>
 import lineLogin from '~/tools/lineLogin'
+import ubike from '~/tools/ubike'
+
 export default {
   props: {
     data: {
@@ -78,6 +80,9 @@ export default {
     },
   },
   async mounted() {
+<
+    ubike.getUbikeApi() //取ubike資料
+
     let loginCounter = 0
     let interval = setInterval((_) => {
       let user = lineLogin.getUser()
