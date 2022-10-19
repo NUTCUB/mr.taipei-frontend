@@ -7,4 +7,5 @@ export default {
     client_secret: '3123ea22ad4c1a3af54d4e8525403de8',
   },
   api: 'https://ntub.fr.rs',
+
 }

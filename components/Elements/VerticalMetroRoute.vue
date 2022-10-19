@@ -9,7 +9,7 @@
         <MetroStation
           v-if="element.type == 'station' && element.station.transit != null"
           :color="element.station.transit.line.color"
-          :code="codes[element.station.transit.departure_stop.name]"
+
           exit=""
         ></MetroStation>
         <div
@@ -101,9 +101,9 @@ export default {
   data() {
     return {
       codes: {
-        東門站: 'R07',
-        大安站: 'BR09',
-        大直站: 'BR14',
+        東門: 'R07',
+        大安: 'BR09',
+        大直: 'BR14',
         Dongmen: 'R07',
         Daan: 'BR09',
         Dazhi: 'BR14'
