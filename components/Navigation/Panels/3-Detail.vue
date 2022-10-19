@@ -42,13 +42,13 @@
       </div>
       <div v-if="data.detailRoutes">
         <div v-for="(detail, index) in data.detailRoutes" :key="index">
-          <hr />
+          <hr v-if="data.fromLocation === '信愛公園' || detail.type == 'metro'"/>
           <VerticalMetroRoute
             v-if="detail.type == 'metro'"
             :route="detail.route"
           ></VerticalMetroRoute>
           <VerticalUBikeRoute
-            v-if="detail.type == 'ubike'"
+            v-if="detail.type == 'ubike' && data.fromLocation === '信愛公園'"
             :route="detail.route"
           ></VerticalUBikeRoute>
         </div>
@@ -89,9 +89,12 @@ export default {
     this.departure_time = routeTime.departure_time.text
     this.arrival_time = routeTime.arrival_time.text
     this.duration = routeTime.duration.text
+
     let quantity =localStorage.getItem('愛國金山路口-sbi')
     let vacancy = localStorage.getItem('東門站出口-bemp') 
-    
+ 
+
+
     const routes = JSON.parse(localStorage.getItem('Routes'))
     this.$set(this.data, 'detailRoutes', [
       {
