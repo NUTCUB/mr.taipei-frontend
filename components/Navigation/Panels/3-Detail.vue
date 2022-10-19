@@ -77,7 +77,6 @@
 </template>
 
 <script>
-
 export default {
   props: {
     data: {
@@ -90,11 +89,6 @@ export default {
     this.arrival_time = routeTime.arrival_time.text
     this.duration = routeTime.duration.text
 
-    let quantity =localStorage.getItem('愛國金山路口-sbi')
-    let vacancy = localStorage.getItem('東門站出口-bemp') 
- 
-
-
     const routes = JSON.parse(localStorage.getItem('Routes'))
     this.$set(this.data, 'detailRoutes', [
       {
@@ -104,7 +98,7 @@ export default {
             version: '1.0',
             name: '金山愛國路口',
             distance: '20 公尺',
-            quantity: quantity,
+            quantity: 17,
             vacancy: null,
           },
           {
@@ -112,7 +106,7 @@ export default {
             name: '捷運東門站',
             distance: '',
             quantity: null,
-            vacancy: vacancy,
+            vacancy: 5,
           },
         ],
       },
