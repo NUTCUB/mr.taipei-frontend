@@ -1,18 +1,22 @@
- ,<template>
+<template>
   <div class="elements" v-if="displayElements">
-    <div
-      v-for="(element, index) in displayElements"
-      :key="index"
-      :class="element.type"
-    >
+    <div v-for="(element, index) in displayElements" :key="index" :class="element.type">
       <div class="icon">
-        <MetroStation
-          v-if="element.type == 'station' && element.station.transit != null"
-          :color="element.station.transit.line.color"
-          :code="codes[element.station.transit.departure_stop.name]"
+        <div v-for="(mrtitem, i) in mrtData" :key="i">
+          <MetroStation
+            v-if="
+              element.type == 'station' &&
+              element.station.transit != null &&
+              (mrtitem.StationName.Zh_tw ===
+                element.station.transit.departure_stop.name ||
+                mrtitem.StationName.En === element.station.transit.departure_stop.name)
+            "
+            :color="element.station.transit.line.color"
+            :code="mrtitem.StationID"
+            exit=""
+          ></MetroStation>
+        </div>
 
-          exit=""
-        ></MetroStation>
         <div
           v-if="element.type == 'line'"
           class="lineBackground"
@@ -27,15 +31,15 @@
         v-if="element.type == 'station' && element.station.transit != null"
       >
         <div class="title font-size-regular color-text">
-          <!-- {{ element.station.title }} -->
           捷運{{ element.station.transit.departure_stop.name }}
           <Icon v-if="element.station.notice" icon="bell-ring"></Icon>
         </div>
         <div class="tips font-size-small color-text">
-          <!-- {{ element.station.tips }} -->
           往{{ element.station.transit.headsign }}
           <br />
-          <span v-if="element.index !== element.lastTransitIndex" style="color: #17e68e"> 出口2</span>
+          <span v-if="element.index !== element.lastTransitIndex" style="color: #17e68e">
+            出口2</span
+          >
         </div>
       </div>
 
@@ -43,7 +47,6 @@
         class="datetime font-size-small color-text"
         v-if="element.type == 'station' && element.station.transit != null"
       >
-        <!-- {{ element.station.datetime }} -->
         {{ element.station.transit.departure_time.text }}
       </div>
     </div>
@@ -52,12 +55,19 @@
       :key="index == element.lastTransitIndex"
       :class="element.type"
     >
-      <MetroStation
-        v-if="element.type == 'station' && element.index == element.lastTransitIndex"
-        :color="element.station.transit.line.color"
-        :code="codes[element.station.transit.arrival_stop.name]"
-        exit=""
-      ></MetroStation>
+      <div v-for="(mrtitem, i) in mrtData" :key="i">
+        <MetroStation
+          v-if="
+            element.type == 'station' &&
+            element.index == element.lastTransitIndex &&
+            (mrtitem.StationName.Zh_tw === element.station.transit.arrival_stop.name ||
+              mrtitem.StationName.En === element.station.transit.arrival_stop.name)
+          "
+          :color="element.station.transit.line.color"
+          :code="mrtitem.StationID"
+          exit=""
+        ></MetroStation>
+      </div>
       <div
         v-if="element.type == 'line'"
         class="lineBackground"
@@ -75,62 +85,18 @@
           <Icon v-if="element.station.notice" icon="bell-ring"></Icon>
         </div>
         <div class="tips font-size-small color-text">
-          <span v-if="element.station.transit.arrival_stop.name == '大直站'"> 
-            {{ element.station.transit.arrival_stop.name }}下車</span>
-
-          <span style="color: #17e68e"> 出口3</span>
-
-        </div>
-      </div>
-
-      <div
-        class="datetime font-size-small color-text"
-        v-if="element.type == 'station' && element.station.transit != null"
-      >
-        <!-- {{ element.station.datetime }} -->
-        {{ element.station.transit.departure_time.text }}
-      </div>
-    </div>
-    <div
-      v-for="(element, index) in displayElements"
-      :key="index == element.lastTransitIndex"
-      :class="element.type"
-    >
-      <MetroStation
-        v-if="element.type == 'station' && element.index == element.lastTransitIndex"
-        :color="element.station.transit.line.color"
-        :code="codes[element.station.transit.arrival_stop.name]"
-        exit=""
-      ></MetroStation>
-      <div
-        v-if="element.type == 'line'"
-        class="lineBackground"
-        :style="{
-          background: element.color,
-        }"
-      ></div>
-      <div
-        class="content"
-        v-if="element.type == 'station' && element.index == element.lastTransitIndex"
-      >
-        <div class="title font-size-regular color-text">
-          <!-- {{ element.station.title }} -->
-          捷運{{ element.station.transit.arrival_stop.name }} 下車
-          <Icon v-if="element.station.notice" icon="bell-ring"></Icon>
-        </div>
-        <div class="tips font-size-small color-text">
-          <span v-if="element.station.transit.arrival_stop.name == '大直站'"> 
-            {{ element.station.transit.arrival_stop.name }}下車</span>
-
           <span style="color: #17e68e"> 出口3</span>
         </div>
       </div>
       <div
         class="datetime font-size-small color-text"
-        v-if="element.type == 'station' && element.station.transit != null && element.index == element.lastTransitIndex"
+        v-if="
+          element.type == 'station' &&
+          element.station.transit != null &&
+          element.index == element.lastTransitIndex
+        "
       >
         <!-- {{ element.station.datetime }} -->
-
         {{ element.station.transit.arrival_time.text }}
       </div>
     </div>
@@ -138,6 +104,7 @@
 </template>
 
 <script>
+import mrtDataJson from "~/tools/mrtData.json"; //取得捷運代碼json
 export default {
   props: {
     route: {
@@ -146,53 +113,46 @@ export default {
   },
   data() {
     return {
-      codes: {
-        東門: 'R07',
-        大安: 'BR09',
-        大直: 'BR14',
-        Dongmen: 'R07',
-        Daan: 'BR09',
-        Dazhi: 'BR14'
-      },
-    }
+      mrtData: mrtDataJson,
+    };
   },
 
   computed: {
     displayElements() {
-      let elements = []
-      let lastStation = null
-      let lastTransitIndex
+      let elements = [];
+      let lastStation = null;
+      let lastTransitIndex;
       for (let [index, station] of this.route.entries()) {
         if (station.transit != null) {
-          lastTransitIndex = index
+          lastTransitIndex = index;
         }
       }
       for (let [index, station] of this.route.entries()) {
         if (lastStation != null && station.transit != null) {
           elements.push({
-            type: 'line',
+            type: "line",
             color: lastStation.color,
-          })
+          });
           elements.push({
-            type: 'line',
+            type: "line",
             color: station.color,
-          })
+          });
         }
         if (station.transit != null) {
           elements.push({
-            type: 'station',
+            type: "station",
             station: station,
             lastTransitIndex: lastTransitIndex,
             index: index,
-          })
-          lastStation = station
+          });
+          lastStation = station;
         }
       }
-      console.log(elements)
-      return elements
+      console.log(elements);
+      return elements;
     },
   },
-}
+};
 </script>
 
 <style scoped>

@@ -94,7 +94,7 @@ export default {
     let vacancy = localStorage.getItem('東門站出口-bemp') 
  
 
-
+    console.log(routes)
     const routes = JSON.parse(localStorage.getItem('Routes'))
     this.$set(this.data, 'detailRoutes', [
       {
