@@ -80,7 +80,7 @@ export default {
     },
   },
   async mounted() {
-<
+
     ubike.getUbikeApi() //取ubike資料
 
     let loginCounter = 0

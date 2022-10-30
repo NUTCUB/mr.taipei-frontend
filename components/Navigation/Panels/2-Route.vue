@@ -103,6 +103,7 @@ export default {
         modes: ['SUBWAY'],
       },
     }
+    
 
     directionsRenderer.setMap(this.$nuxt.$map)
 
