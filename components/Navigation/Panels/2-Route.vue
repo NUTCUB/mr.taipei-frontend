@@ -12,6 +12,7 @@
           </div>
         </div>
       </div>
+      
       <div class="cols">
         <div class="col-12 p-2">
           <div class="rows flex-cols-flex-start">
@@ -101,7 +102,7 @@ export default {
       travelMode: 'TRANSIT',
       transitOptions: {
         modes: ['SUBWAY'],
-      },
+      }, 
     }
     
 
