@@ -8,11 +8,16 @@
       <div
         v-for="(route, index) in routes"
         :key="index"
-        @click="selectedRoute = route"
+        @click="$emit('next', 'getInfoPanel'),data.fromLocation = route.start ,data.toLocation=route.end"
         :class="{ route: true, active: selectedRoute == route }"
       >
+      
         {{ route.start }} - {{ route.end }}
       </div>
+      <div>
+
+      </div>
+      
 
       <div class="cols mt-4 p-1">
         <!-- <Button @click="$emit('next', 'getDetail')" size="small" class="w-100"
@@ -23,16 +28,20 @@
         >
       </div>
     </Panel>
+         
   </div>
+  
 </template>
 
 <script>
+
 export default {
   props: {
     data: {
       type: Object,
     },
   },
+  
   data() {
     return {
       selectedRoute: null,
